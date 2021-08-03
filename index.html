@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cashRegister</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script type="text/javascript" src="https://unpkg.com/rxjs@%5E7/dist/bundles/rxjs.umd.min.js"></script>
+<script type="text/javascript" src="./cashRegister.js"></script>
+<script type="text/javascript">
+    const { Observable } = rxjs;
+
+    window.onload = function () {
+        const price = document.getElementById('price');
+        const cash = document.getElementById('cash');
+        const oneHundred = document.getElementById('100');
+        const fifty = document.getElementById('50');
+        const twenty = document.getElementById('20');
+        const ten   = document.getElementById('10');
+        const five   = document.getElementById('5');
+        const one  = document.getElementById('1');
+        const quarter  = document.getElementById('0.25');
+        const dime  = document.getElementById('0.1');
+        const nickel  = document.getElementById('0.05');
+        const penny  = document.getElementById('0.01');
+        
+        let cid = [["PENNY", Number(penny.value)], ["NICKEL", Number(nickel.value)], ["DIME", Number(dime.value)], ["QUARTER", Number(quarter.value)], ["ONE", Number(one.value)], ["FIVE", Number(five.value)], ["TEN", Number(ten.value)], ["TWENTY", Number(twenty.value)], ["ONE HUNDRED", Number(oneHundred.value)]];
+        const output = document.getElementById('output');
+        
+        output.value=JSON.stringify(checkCashRegister(price.value, cash.value, cid));
+        console.log(cid)
+        const observable = new Observable((subscriber)=> {
+            price.addEventListener("input", () => {
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+            cash.addEventListener("input", () => {
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            // cid.addEventListener("input", () => {
+            //     console.log(cid.value);
+            //     subscriber.next(checkCashRegister(price.value, cash.value, cid.value));
+            // });
+        });
+        
+        const handler = {
+            next: value => {
+                //console.log(JSON.stringify(value));
+                output.value = JSON.stringify(value);
+            },
+            error: err => console.log("something went really wrong..."),
+            complete: () => console.log('proceso completo'),
+        }
+    
+        const subscription = observable.subscribe(handler);
+    
+        // setTimeout(() => {
+        //     console.log("Desubscripto del observable")
+        //     output.value = "";
+        //     subscription.unsubscribe();
+        // }, 10000);
+    }
+</script>
+
+</head>
+<body>
+    <h1>Mi caja registradora</h1>
+    <div class="container">
+        <div class="row ">
+            <div class="col-6">
+                <div>
+                    <h2>Lista de items</h2>
+                    <ul>
+                        <li>zapatilla: $2400</li>
+                        <li>remera: $1000</li>
+                    </ul>
+                </div>
+                <div>
+                    <hr>
+                    <label>Total:</label>
+                    <input type="number" value="19.5" id="price">
+                    <br>
+                    <label>Efectivo:</label>
+                    <input type="number" value="20" id="cash">
+                    <hr>
+                    <label>Change:</label>
+                    <input type="text" style="width: 80%" value="" id="output">
+                    <button type="submit">Entregar cambio!</button>
+                </div>
+            </div>
+            <div class="col-6">
+                <h2>Dinero en caja</h2>
+                <label>$100:</label>
+                <input type="number" value="100" id="100">
+                <br>
+                <label>$20:</label>
+                <input type="number" id="20">
+                <br>
+                <label>$10:</label>
+                <input type="number" id="10">
+                <br>
+                <label>$5:</label>
+                <input type="number" id="5">
+                <br>
+                <label>$1:</label>
+                <input type="number" value="1" id="1">
+                <br>
+                <label>25c:</label>
+                <input type="number" id="0.25">
+                <br>
+                <label>10c:</label>
+                <input type="number" id="0.1">
+                <br>
+                <label>5c:</label>
+                <input type="number" id="0.05">
+                <br>
+                <label>1c:</label>
+                <input type="number" value="0.5" id="0.01">
+                <br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
