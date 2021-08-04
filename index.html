@@ -12,8 +12,7 @@
     const { Observable } = rxjs;
 
     window.onload = function () {
-        const price = document.getElementById('price');
-        const cash = document.getElementById('cash');
+        
         const oneHundred = document.getElementById('100');
         const fifty = document.getElementById('50');
         const twenty = document.getElementById('20');
@@ -25,41 +24,78 @@
         const nickel  = document.getElementById('0.05');
         const penny  = document.getElementById('0.01');
         
+        let price = document.getElementById('price');
+        let cash = document.getElementById('cash');
         let cid = [["PENNY", Number(penny.value)], ["NICKEL", Number(nickel.value)], ["DIME", Number(dime.value)], ["QUARTER", Number(quarter.value)], ["ONE", Number(one.value)], ["FIVE", Number(five.value)], ["TEN", Number(ten.value)], ["TWENTY", Number(twenty.value)], ["ONE HUNDRED", Number(oneHundred.value)]];
-        const output = document.getElementById('output');
         
-        output.value=JSON.stringify(checkCashRegister(price.value, cash.value, cid));
-        console.log(cid)
+        const output = document.getElementById('output');
+        output.value=JSON.stringify(checkCashRegister(Number(price.value), Number(cash.value), cid));
+
+
         const observable = new Observable((subscriber)=> {
             price.addEventListener("input", () => {
-                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+                subscriber.next(checkCashRegister(Number(price.value), Number(cash.value), cid));
             });
             cash.addEventListener("input", () => {
+                subscriber.next(checkCashRegister(Number(price.value), Number(cash.value), cid));
+            });
+            
+            penny.addEventListener("input", () => {
+                cid[0][1] = Number(penny.value);
                 subscriber.next(checkCashRegister(price.value, cash.value, cid));
             });
 
-            // cid.addEventListener("input", () => {
-            //     console.log(cid.value);
-            //     subscriber.next(checkCashRegister(price.value, cash.value, cid.value));
-            // });
+            nickel.addEventListener("input", () => {
+                cid[1][1] = Number(nickel.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            dime.addEventListener("input", () => {
+                cid[2][1] = Number(dime.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            quarter.addEventListener("input", () => {
+                cid[3][1] = Number(quarter.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            one.addEventListener("input", () => {
+                cid[4][1] = Number(one.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            five.addEventListener("input", () => {
+                cid[5][1] = Number(five.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            ten.addEventListener("input", () => {
+                cid[6][1] = Number(ten.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            twenty.addEventListener("input", () => {
+                cid[7][1] = Number(twenty.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+
+            oneHundred.addEventListener("input", () => {
+                cid[8][1] = Number(oneHundred.value);
+                subscriber.next(checkCashRegister(price.value, cash.value, cid));
+            });
+        
         });
         
         const handler = {
             next: value => {
-                //console.log(JSON.stringify(value));
                 output.value = JSON.stringify(value);
             },
-            error: err => console.log("something went really wrong..."),
+            error: err => console.log(err),
             complete: () => console.log('proceso completo'),
         }
     
         const subscription = observable.subscribe(handler);
-    
-        // setTimeout(() => {
-        //     console.log("Desubscripto del observable")
-        //     output.value = "";
-        //     subscription.unsubscribe();
-        // }, 10000);
     }
 </script>
 
