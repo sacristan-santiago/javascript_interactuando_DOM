@@ -1,20 +1,21 @@
 //cid IS THE AMOUNT OF CASH IN REGISTER BEFORE THE TRANSACTION.
 function checkCashRegister(price, cash, cid) {
-  //CLASE OUTPUT
   class Output {
     constructor() {
       this.status = "";
+      //INSERTO UN ARRAY DENTRO DEL OBJETO, LUEGO USARE METODOS SOBRE ESTE ARRAY
       this.change = [];
     }
+    //UTILIZO EL METODO ARRAY.REDUCE
     availableChange () {
       return Math.round((this.change.reduce((acc,curr)=> acc += curr[1], 0)*100))/100;
     }
   }
 
+  //CREO LOS ARRAYS currencyUnit Y amount
   let currencyUnit = ["PENNY", "NICKEL", "DIME", "QUARTER", "ONE", "FIVE", "TEN", "TWENTY", "ONE-HUNDRED"];
   let amount = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
   let rest = cash - price;
-  //USO LA CLASE OUTPUT
   let output = new Output;
 
   //CALCULO EL CAMBIO EN BILLETES/MONEDAS
@@ -31,6 +32,7 @@ function checkCashRegister(price, cash, cid) {
   //COMPARATIVE FUNCTIONS
   const availableChange = output.availableChange();
   const neededChange = (cash, price) => Math.round((cash-price)*100)/100;
+  //UTILIZO EL METODO ARRAY.REDUCE
   const moneyInRegister = (cid) => Math.round((cid.reduce((acc,curr)=> acc += curr[1], 0)*100))/100
   
   //CONDITIONAL TO CHECK IF CASHREGISTER REMAINS OPEN, CLOSED OR HAS NO FUNDS.
@@ -40,10 +42,12 @@ function checkCashRegister(price, cash, cid) {
     }
     else if (moneyInRegister(cid) === neededChange(cash, price)) {
       output.status = "CLOSED";
+      //UTILIZO EL METODO ARRAY.FILTER
       output.change = output.change.filter(x=>x[1] != 0)
     } 
     else {
       output.status = "OPEN";
+       //UTILIZO EL METODO ARRAY.FILTER
       output.change = output.change.filter(x=>x[1] != 0)
     }
   return output;
