@@ -28,8 +28,13 @@
         let cash = document.getElementById('cash');
         let cid = [["PENNY", Number(penny.value)], ["NICKEL", Number(nickel.value)], ["DIME", Number(dime.value)], ["QUARTER", Number(quarter.value)], ["ONE", Number(one.value)], ["FIVE", Number(five.value)], ["TEN", Number(ten.value)], ["TWENTY", Number(twenty.value)], ["ONE HUNDRED", Number(oneHundred.value)]];
         
+
+        //IMPRIMIENDO DOM
         const output = document.getElementById('output');
-        output.value=JSON.stringify(checkCashRegister(Number(price.value), Number(cash.value), cid));
+        let outputObj = checkCashRegister(Number(price.value), Number(cash.value), cid);
+        output.innerHTML = outputObj.change.map(x=>
+        `<p>${x[0]}: ${x[1]}$</p>`
+        ).join("<br>");
 
 
         const observable = new Observable((subscriber)=> {
@@ -89,7 +94,48 @@
         
         const handler = {
             next: value => {
-                output.value = JSON.stringify(value);
+                output.innerHTML = value.change.map(x=>
+        `<p>${x[0]}: ${x[1]}$</p>`
+        ).join(" ");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             },
             error: err => console.log(err),
             complete: () => console.log('proceso completo'),
@@ -120,8 +166,8 @@
                     <label>Efectivo:</label>
                     <input type="number" value="20" id="cash">
                     <hr>
-                    <label>Change:</label>
-                    <input type="text" style="width: 80%" value="" id="output">
+                    <label>Vuelto por billete:<br></label>
+                    <div id="output"></div>
                     <button type="submit">Entregar cambio!</button>
                 </div>
             </div>
