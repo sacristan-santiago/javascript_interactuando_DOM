@@ -95,47 +95,8 @@
         const handler = {
             next: value => {
                 output.innerHTML = value.change.map(x=>
-        `<p>${x[0]}: ${x[1]}$</p>`
-        ).join(" ");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                `<p>${x[0]}: ${x[1]}$</p>`
+                ).join(" ");
             },
             error: err => console.log(err),
             complete: () => console.log('proceso completo'),
