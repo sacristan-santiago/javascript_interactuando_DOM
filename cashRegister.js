@@ -13,14 +13,14 @@ function checkCashRegister(price, cash, cid) {
   }
 
   //CREO LOS ARRAYS currencyUnit Y amount
-  let currencyUnit = ["PENNY", "NICKEL", "DIME", "QUARTER", "ONE", "FIVE", "TEN", "TWENTY", "ONE-HUNDRED"];
+  let currencyUnit = ["UN CENTAVO", "CINCO CENTAVOS", "DIEZ CENTAVOS", "VEINTICINCO CENTAVOS", "UN PESOS", "CINCO PESOS", "DIEZ PESOS", "VEINTE PESOS", "CIEN PESOS"];
   let amount = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
   let rest = cash - price;
   let output = new Output;
 
   //CALCULO EL CAMBIO EN BILLETES/MONEDAS
   for (let i = amount.length-1; i>=0; i--) {
-    let arr = [currencyUnit[i], 0]; 
+    let arr = [currencyUnit[i], 0, amount[i]]; 
     while (amount[i]<=rest && cid[i][1]>=arr[1]+amount[i]) {
       rest = Math.round((rest-amount[i])*100)/100;
       arr[1] += amount[i];

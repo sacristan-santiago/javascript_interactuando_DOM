@@ -37,30 +37,9 @@ let productos = [
     },
 ]
 
-
-const render = (productos) => {
-    const li = productos.map(function (productos) {
-        
-        return `
-        <li>${productos.title}: $${productos.price}<button id="button${productos.id}" onclick="remove(${productos.id})">Remover</button></li>
-        `;
-    }).join(' ');
-
-    const lista = `
-    <ul>
-         ${li} 
-    </ul>    
-    `;
-    document.getElementById('items').innerHTML = lista;
+const guardarSession = (clave, valor) => {
+    sessionStorage.setItem(clave, valor)
 }
 
-/*REMOVER PRODUCTO LISTA DE COMPRAS*/ 
-const remove = (productoID) => {
-    productos = productos.filter(producto => producto.id != productoID);
-    render(productos);
-    const reducer = (accumulator, currentValue) => accumulator + currentValue.price;
-    price.value = productos.reduce(reducer, 0);
-    price.dispatchEvent(InputEvent);
-}
-
-render(productos);
+//Almaceno productos en sessionStorage
+guardarSession("listaProductos", JSON.stringify(productos));
