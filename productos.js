@@ -41,5 +41,5 @@ const guardarSession = (clave, valor) => {
     sessionStorage.setItem(clave, valor)
 }
 
-//Almaceno productos en sessionStorage
+//Almaceno productos en sessionStorage en formato JSON
 guardarSession("listaProductos", JSON.stringify(productos));
