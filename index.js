@@ -1,6 +1,6 @@
 const { Observable } = rxjs;
 
-window.onload = function () {
+window.onload = async function () {
     const output = $('#output');   //USO JQUERY
     const oneHundred = $('#100');   
     const fifty = $('#50');
@@ -12,8 +12,18 @@ window.onload = function () {
     const dime  = $('#0.1');
     const nickel  = $('#0.05');
     const penny  = $('#0.01');
+    const caja = $('caja')
+    //TRAIGO PRODUCTOS
+    const URLJSON = "productos.json";
 
-    let listaProductos = JSON.parse(sessionStorage.getItem("listaProductos"));
+    //TRAYENDO DATA CON AJAX
+    let listaProductos = await $.getJSON(URLJSON, function(res, est) {
+            if (est==="success") {
+                return res
+            }
+        })
+
+    // let listaProductos = JSON.parse(sessionStorage.getItem("listaProductos"));
     let price = listaProductos.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
     let cash = $('#cash');
     let cid = [["PENNY", Number(penny.val())], ["NICKEL", Number(nickel.val())], ["DIME", Number(dime.val())], ["QUARTER", Number(quarter.val())], ["ONE", Number(one.val())], ["FIVE", Number(five.val())], ["TEN", Number(ten.val())], ["TWENTY", Number(twenty.val())], ["ONE HUNDRED", Number(oneHundred.val())]];
@@ -23,8 +33,8 @@ window.onload = function () {
         const productoID = e.data.param
         //ACTUALIZO NUEVA LISTA SESSION STORAGE 
         listaProductos = listaProductos.filter(prod => prod.id != productoID);
-        guardarSession("listaProductos", JSON.stringify(listaProductos));
-    
+        // guardarSession("listaProductos", JSON.stringify(listaProductos));
+        
         //ACTUALIZAR PRECIO TOTAL CARRITO
         price = listaProductos.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
         $('#price2').html(price);
@@ -46,14 +56,25 @@ window.onload = function () {
                             ${li} 
                         </ul>    
                         `;
-        //RENDERIZO ITEMS              
         $('#items').html(lista)
-        $('#items').hide().fadeIn(500); //ENCADENO ANIMACION
-        
+        //RENDERIZO ITEMS              
+        if (listaProductos[0]) {
+            $('#items').html(lista)
+            $('#items').hide().fadeIn(500); //ENCADENO ANIMACION
+        } else {
+            $('#items').fadeOut(500);
+        }
 
         //AGREGO FUNCION AL BOTON REMOVE
         for (const prod of listaProductos) {
             $(`#button${prod.id}`).click({param: prod.id}, remove)
+        }
+
+        //RENDERIZO CAJA
+        if (listaProductos[0]) {
+    
+        } else {
+            $('#caja').hide().fadeIn(500);
         }
     
         //RENDERIZO PRECIO TOTAL
@@ -67,11 +88,16 @@ window.onload = function () {
     
         //RENDERIZO TOTAL EN BILLETES
         const outputObj = checkCashRegister(price, Number(cash.val()), cid);
-        output.html(outputObj.change.map(x=>     //USO JQUERY
-        // `<p>${x[0]}: $${x[1]}</p>`
-        `<p>$${x[2]} x ${x[1]/x[2]}</p>`
-        ).join(" "));
-        $('#output').hide().fadeIn(500); //ENCADENO ANIMACION
+        if (listaProductos[0]) {
+            output.html(outputObj.change.map(x=>     //USO JQUERY
+                // `<p>${x[0]}: $${x[1]}</p>`
+                `<p>$${x[2]} x ${x[1]/x[2]}</p>`
+                ).join(" "));
+            $('#output').hide().fadeIn(500); //ENCADENO ANIMACION
+        } else {
+            $('#output').fadeOut(500);
+        }
+        
 
     }
     
@@ -81,11 +107,16 @@ window.onload = function () {
     //FUNCION PARA ENTREGAR EL CAMBIO Y ACTUALIZAR EL BALANCE DE LA CAJA
     const handCash = $("#handCash"); //USO JQUERY
     handCash.on("click", () => {     //USO JQUERY
-        console.log(checkCashRegister(price, Number(cash.val()), cid))
         const salida = checkCashRegister(price, Number(cash.val()), cid);
         salida.change.forEach(x => {
             document.getElementById(x[2]).value-= x[1]; 
         });
+        
+        listaProductos = [];
+        price = 0;
+        cash.val(0);
+        render();
+
     });
     
     const observable = new Observable((subscriber)=> {

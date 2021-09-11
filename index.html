@@ -11,7 +11,7 @@
 <body>
     <h1>Mi caja registradora</h1>
     <div class="container">
-        <div class="columna1">
+        <div class="columna">
             <h2>Carrito</h2>
             <div id="items"></div>
             <div class="columna_bottom">
@@ -25,21 +25,21 @@
                 </div>
             </div>
         </div>
-        <div class="columna2">
+        <div class="columna">
             <h2>Vuelto</h2>
             <div>
                 <label>Total: $</label>
                 <label id="changeTotal"></label>
             </div>
+            <br>
             <div>
                 <label>Billetes:</label>
                 <div id="output"></div>
             </div>
-            <button class="columna_bottom"type="submit" id="handCash">Entregar cambio y actualizar caja!</button>
         </div>
-        <div>
+        <div class="columna">
             <h2>Caja</h2>
-            <div class="caja">
+            <div class="caja" id="caja">
                 <label>$100:</label>
                 <input type="number" value="1600" id="100">
                 <label>$20:</label>
@@ -60,6 +60,7 @@
                 <input type="number" value="0.5" id="0.01">
                 <br>
             </div>
+            <button class="columna_bottom handcash_button"type="submit" id="handCash">Entregar cambio y<br> actualizar caja</button>
         </div>
     </div>
 <script type="text/javascript" src="./cashRegister.js"></script>

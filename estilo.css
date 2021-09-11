@@ -7,11 +7,12 @@
 
 body {
     background-color: #4a9a99;
-    font-size: 18px;
     font-family: 'Codystar', cursive;
+    font-size: 18px;
 }
 
 .container {
+    color: rgb(102, 255, 0);
     margin-left: auto;
     margin-right: auto;
     margin-top: 10vh;
@@ -21,11 +22,11 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    color: orange;
     background-color: black;
     padding: 1rem;
     border-radius: 25px;
-    height: 50vh;
+    height: 60vh;
+    
 }
 
 @media (max-width: 800px) {
@@ -70,20 +71,49 @@ input::-webkit-inner-spin-button {
     grid-template-columns: 1fr 1fr;
 }
 
-.columna1 {
+.columna {
     display: flex;
     flex-direction: column;
+    width: 28%;
 }
 
 .columna_bottom {
     margin-top: auto;
 }
 
-.columna2 {
-    display: flex;
-    flex-direction: column;
+button {
+    border-radius: 5px;
+    padding: 0.25em;
+    font-size: 18px;
+    font-family: 'Codystar', cursive;
+    color: rgb(102, 255, 0);
+    font-weight: bold;
+    background-color: black;
+    border: 0;
 }
 
-.columna2 div {
-    margin-bottom: 1rem;
+button:hover {
+    color: chocolate;
+    border-color: chocolate;
+}
+
+.handcash_button {
+    border: solid 1px rgb(102, 255, 0);
+}
+
+.handcash_button:hover {
+    color: chocolate;
+    border-color: chocolate;
+}
+
+input {
+    background-color: black;
+    font-family: 'Codystar', cursive;
+    color: rgb(102, 255, 0);
+    font-size: 18px;
+}
+
+input:hover {
+    color: chocolate;
+    
 }
