@@ -124,7 +124,10 @@ window.onload = async function () {
         //     subscriber.next(checkCashRegister(Number(price.val()), Number(cash.val()), cid));
         // });
         cash.on("input", () => {
-            subscriber.next(checkCashRegister(price, Number(cash.val()), cid));
+            subscriber.next(checkCashRegister(price, cash.val(), cid));
+            //RENDERIZO VUELTO TOTAL
+            $('#changeTotal').html(cash.val()-price);
+            $('#changeTotal').hide().fadeIn(500); //ENCADENO ANIMACION
         });
         
         penny.on("input", () => {
